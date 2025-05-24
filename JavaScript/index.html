@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Community Event Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index333.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+            background-image: url('https://source.unsplash.com/random/1920x1080/?community,city');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        /* Basic spinner style for Task 9 */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #2563eb;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Style for form error messages */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875em;
+            margin-top: 4px;
+            display: block;
+        }
+        /* Style for success/failure messages */
+        .status-message {
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #28a745;
+        }
+        .status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #dc3545;
+        }
+        /* Styles for dynamically created event cards */
+        .event-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .event-card h4 {
+            font-size: 1.3em;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        .event-card p {
+            font-size: 0.95em;
+            color: #4b5563;
+            margin-bottom: 0;
+        }
+        .event-card .category {
+            font-weight: bold;
+            color: #2563eb;
+        }
+        .event-card .availability {
+            font-style: italic;
+            color: #6b7280;
+        }
+        .event-card button {
+            background-color: #22c55e;
+            color: white;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        .event-card button:hover {
+            background-color: #16a34a;
+        }
+        .event-card button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .event-card.past-event {
+            opacity: 0.6;
+            filter: grayscale(100%);
+        }
+        .event-card.full-event {
+            background-color: #fbdada;
+            border: 1px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="help.html" target="_blank">Help Document</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home">
+            <h1 style="color: red;">Welcome to the Local Community Event Portal!</h1>
+            <div id="welcomeBanner">
+                <p>Welcome, logged-in user! Check out our <span class="highlight-text">special offer</span> for new registrations!</p>
+            </div>
+            <p>This portal helps residents <span class="highlight-text-yellow">register for events</span>, check locations, and access basic services.</p>
+        </section>
+
+        <section id="events">
+            <h2>Upcoming Events</h2>
+            <div class="gallery-container">
+                <h3>Past Community Events Gallery</h3>
+                <div class="eventCard">
+                    <img src="https://godreamcast.com/blog/wp-content/uploads/2024/12/Community-Clean-Up-Events.jpg" alt="Community Clean-Up Events">
+                    <p>Community Clean-Up Events</p>
+                </div>
+                <div class="eventCard">
+                    <img src="https://th.bing.com/th/id/OIP.NqLlw4IBR044lPr37_wbvAAAAA?w=224&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Local Live Concert">
+                    <p>Local Live Concert</p>
+                </div>
+                <div class="eventCard">
+                    <img src="https://th.bing.com/th/id/OIP.iuMQ6XO4gtSlIJ9O4EL2JgHaE8?w=255&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Art Exhibition">
+                    <p>Art Exhibition</p>
+                </div>
+                <div class="eventCard">
+                    <img src="https://th.bing.com/th/id/OIP.MiWmXTiyyXnzLnFmYsTiewHaD4?w=335&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Festival Celebrating Community">
+                    <p>Festival Celebrating Community</p>
+                </div>
+                <div class="eventCard">
+                    <img src="https://th.bing.com/th/id/OIP.xK6RhnrZd-HvqK_H0R-PMQHaEo?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Educational Webinars">
+                    <p>Educational Webinars</p>
+                </div>
+                <div class="eventCard">
+                    <img src="https://th.bing.com/th/id/OIP.ygsvG23k4DjO50BW2afmPgAAAA?w=263&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Book Fair">
+                    <p>Book Fair</p>
+                </div>
+            </div>
+
+           
+
+            <h3>Event Registration</h3>
+            <form id="eventRegistrationForm">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Your full name" required autofocus>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+                <div>
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone" placeholder="e.g., 123-456-7890">
+                    <small id="phoneError"></small>
+                </div>
+                <div>
+                    <label for="date">Event Date:</label>
+                    <input type="date" id="date" name="date" required>
+                    <span class="error-message" id="dateError"></span>
+                </div>
+                <div>
+                    <label for="eventType">Event Type:</label>
+                    <select id="eventType" name="eventType">
+                        <option value="">Select an Event Type</option>
+                        <option value="conference" data-fee="50">Conference</option>
+                        <option value="workshop" data-fee="25">Workshop</option>
+                        <option value="seminar" data-fee="10">Seminar</option>
+                        <option value="free" data-fee="0">Free Event</option>
+                    </select>
+                    <p id="eventFee">Event Fee: $0</p>
+                    <span class="error-message" id="eventTypeError"></span>
+                </div>
+                <div>
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Any special requests or questions?" maxlength="500"></textarea>
+                    <p class="char-count-display">Characters left: <span id="charCount">500</span></p>
+                </div>
+                <button type="submit" class="cta-button" id="registerEventButton">Register for Event</button>
+                <div id="registrationStatus" class="status-message" style="display: none;"></div>
+            </form>
+        </section>
+
+        <section id="video-invite">
+            <h2>Event Promo Video</h2>
+            <video id="promoVideo" controls>
+                <source src="https://cdn.pixabay.com/video/2020/07/18/44926-441206479_large.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p id="videoStatus"></p>
+        </section>
+
+        <section id="preferences">
+            <h2>User Preferences</h2>
+            <label for="preferredEventType">Preferred Event Type:</label>
+            <select id="preferredEventType">
+                <option value="">Select your preferred event type</option>
+                <option value="conference">Conference</option>
+                <option value="workshop">Workshop</option>
+                <option value="seminar">Seminar</option>
+                <option value="free">Free Event</option>
+            </select>
+            <button id="clearPreferencesButton" class="clear-button">Clear Preferences</button>
+        </section>
+
+        <section id="geolocation">
+            <h2>Find Nearby Events</h2>
+            <button id="findNearbyEventsButton" class="nearby-events-button">Find Nearby Events</button>
+            <div id="location-info">
+                <p>Your current location: <span id="latitude">N/A</span>, <span id="longitude">N/A</span></p>
+                <p id="geo-status"></p>
+            </div>
+        </section>
+
+        <section id="event-admin-table">
+            <h2>Event Administration Summary</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Attendees</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Community Garden Day</td>
+                        <td>2025-06-15</td>
+                        <td>120</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Summer Music Fest</td>
+                        <td>2025-07-22</td>
+                        <td>500</td>
+                        <td>Active</td>
+                    </tr>
+                    <tr>
+                        <td>Local Business Fair</td>
+                        <td>2025-08-01</td>
+                        <td>80</td>
+                        <td>Upcoming</td>
+                    </tr>
+                    <tr>
+                        <td>Annual Charity Run</td>
+                        <td>2025-09-10</td>
+                        <td>300</td>
+                        <td>Planned</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="news-article">
+            <h2>Community Bulletin: Latest News</h2>
+            <div class="multi-column-text">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus auctor mattis. Vestibulum eu odio at dolor cursus fermentum. Aliquam in lorem et odio consectetur eleifend. Sed non mauris vitae erat consequat bibendum. Nulla facilisi.</p>
+                <p>Praesent eget volutpat nibh. Integer consectetur, sem at egestas scelerisque, odio elit interdum odio, eu ullamcorper odio odio a eros. Donec interdum, justo in dignissim ullamcorper, enim libero vulputate lorem, in dictum neque lacus at nunc. Etiam a risus non magna semper suscipit. Donec vel urna ac elit congue mollis. Aliquam erat volutpat.</p>
+            </div>
+        </section>
+
+        <section id="feedback">
+            <div>
+                <label for="feedbackMessage">FEEDBACK:</label>
+                <textarea id="feedbackMessage" name="feedbackMessage" rows="5" placeholder="give feedback" maxlength="500"></textarea>
+                <p class="char-count-display">Characters left: <span id="feedbackCharCount">500</span></p>
+            </div>
+            <button type="submit" class="cta-button" id="submitFeedbackButton">Submit Feedback</button>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>If you have any questions, feel free to reach out via <a href="mailto:info@eventportal.com" class="contact-link">email</a> or <a href="tel:+1234567890" class="contact-link">phone</a>.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Local Community Event Portal</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
