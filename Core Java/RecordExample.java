@@ -1,3 +1,4 @@
+record Person(String name, int age) {}
 
 import java.util.*;
 import java.util.stream.Collectors;
