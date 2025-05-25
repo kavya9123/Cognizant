@@ -37,7 +37,7 @@
                         <img src="https://th.bing.com/th/id/OIP.NqLlw4IBR044lPr37_wbvAAAAA?w=224&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"style="width:30%;height: 30%;">
                         <p style="margin-top: 8px; color: #4b5563;">Local Live Concert</p>
                     </div>
-                     <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                       <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                         <img src="https://th.bing.com/th/id/OIP.iuMQ6XO4gtSlIJ9O4EL2JgHaE8?w=255&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"style="width:30%;height: 30%;">
                         <p style="margin-top: 8px; color: #4b5563;"> Art Exhibition</p>
                     </div>
@@ -50,7 +50,7 @@
                         <img src="https://th.bing.com/th/id/OIP.xK6RhnrZd-HvqK_H0R-PMQHaEo?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"style="width:30%;height: 30%;">
                         <p style="margin-top: 8px; color: #4b5563;">Educational Webinars</p>
                     </div>
-                   <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                       <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
                         <img src="https://th.bing.com/th/id/OIP.ygsvG23k4DjO50BW2afmPgAAAA?w=263&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"style="width:30%;height: 30%;">
                         <p style="margin-top: 8px; color: #4b5563;">Book Fair</p>
                     </div>
@@ -83,7 +83,7 @@
                 <div>
                     <label for="eventType" style="display: block; color: #374151; font-weight: 500; margin-bottom: 4px;">Event Type:</label>
                     <select id="eventType" name="eventType"
-                            style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;">
+                             style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;">
                         <option value="">Select an Event Type</option>
                         <option value="conference" data-fee="50">Conference</option>
                         <option value="workshop" data-fee="25">Workshop</option>
@@ -99,6 +99,7 @@
                     <p style="font-size: 0.875em; color: #6b7280; margin-top: 4px;">Characters left: <span id="charCount">500</span></p>
                 </div>
                 
+                <button type="submit" style="background-color: #22c55e; color: white; font-weight: bold; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px;">Register for Event</button>
             </form>
         </section>
 
@@ -129,14 +130,15 @@
             <button id="findNearbyEventsButton" style="background-color: #7c3aed; color: white; font-weight: bold; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; margin-bottom: 16px;">Find Nearby Events</button>
         </section>
         <section id="feedback" style="padding-bottom: 24px; border-bottom: 1px solid #e5e7eb;">
-           <div>
-                    <label for="message" style="display: block; color: #374151; font-weight: 500; margin-bottom: 4px;">FEEDBACK:</label>
-                    <textarea id="message" name="message" rows="5" placeholder="give feedback" maxlength="500"
+            <div>
+                    <label for="feedbackMessage" style="display: block; color: #374151; font-weight: 500; margin-bottom: 4px;">FEEDBACK:</label>
+                    <textarea id="feedbackMessage" name="feedbackMessage" rows="5" placeholder="give feedback" maxlength="500"
                               style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px;"></textarea>
-                    <p style="font-size: 0.875em; color: #6b7280; margin-top: 4px;">Characters left: <span id="charCount">500</span></p>
+                    <p style="font-size: 0.875em; color: #6b7280; margin-top: 4px;">Characters left: <span id="feedbackCharCount">500</span></p>
                 </div>
+            <button type="submit" style="background-color: #22c55e; color: white; font-weight: bold; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; margin-top: 10px;">Submit Feedback</button>
         </section>
-       
+        
 
         <section id="contact" style="padding-bottom: 0;">
             <h2 style="font-size: 1.5em; font-weight: 600; color: #1f2937; margin-bottom: 16px;">Contact Us</h2>
