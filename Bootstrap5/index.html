@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Event Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .event-card:hover { transform: translateY(-5px); transition: transform 0.2s; }
+        .past-event .card { background-color: #f8f9fa; opacity: 0.7; }
+        .full-event .card { background-color: #f8d7da; }
+        .status-message { padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .status-message.success { background-color: #d4edda; color: #155724; }
+        .status-message.error { background-color: #f8d7da; color: #721c24; }
+        .focused-input { border-color: #0d6efd; box-shadow: 0 0 5px rgba(13, 110, 253, 0.5); }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="https://via.placeholder.com/30" alt="Logo" class="me-2">Community Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#help">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row">
+            <aside class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-uppercase">Preferences</h5>
+                        <select id="preferredEventType" class="form-select mb-3">
+                            <option value="">Select Event Type</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Seminar">Seminar</option>
+                            <option value="Free Event">Free Event</option>
+                        </select>
+                        <button id="clearPreferencesButton" class="btn btn-danger w-100">Clear</button>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="col-md-9">
+                <section id="home" class="mb-5">
+                    <div id="welcomeBanner" class="alert alert-primary text-center">
+                        <h1 class="display-4 fw-bold">Community Event Portal</h1>
+                        <p class="lead text-muted text-uppercase">Welcome! Check our offers!</p>
+                        <p>Register for events and access services.</p>
+                    </div>
+                </section>
+
+                <section id="events" class="mb-5">
+                    <h2 class="display-6 fw-bold">Events</h2>
+                    <div id="dynamicEventsListContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4"></div>
+                    <div id="loadingSpinner" class="d-none text-center my-3"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>
+                    <h3 class="mt-4">Past Events Gallery</h3>
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                        <div class="col"><div class="card shadow-sm"><img src="https://godreamcast.com/blog/wp-content/uploads/2024/12/Community-Clean-Up-Events.jpg" alt="Community Clean-Up Events" class="card-img-top" alt="Clean-Up"><div class="card-body"><p class="card-text">Community Clean-Up</p></div></div></div>
+                        <div class="col"><div class="card shadow-sm"><img src="https://th.bing.com/th/id/OIP.NqLlw4IBR044lPr37_wbvAAAAA?w=224&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" class="card-img-top" alt="Concert"><div class="card-body"><p class="card-text">Live Concert</p></div></div></div>
+                        <div class="col"><div class="card shadow-sm"><img src="https://th.bing.com/th/id/OIP.iuMQ6XO4gtSlIJ9O4EL2JgHaE8?w=255&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" class="card-img-top" alt="Art"><div class="card-body"><p class="card-text">Art Exhibition</p></div></div></div>
+                    </div>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">Register</h2>
+                    <form id="eventRegistrationForm" class="needs-validation" novalidate>
+                        <div class="mb-3"><label for="name" class="form-label">Name</label><input type="text" class="form-control" id="name" required><div id="nameError" class="invalid-feedback"></div></div>
+                        <div class="mb-3"><label for="email" class="form-label">Email</label><input type="email" class="form-control" id="email" required><div id="emailError" class="invalid-feedback"></div></div>
+                        <div class="mb-3"><label for="phone" class="form-label">Phone</label><input type="text" class="form-control" id="phone" placeholder="XXX-XXX-XXXX"><div id="phoneError" class="invalid-feedback"></div></div>
+                        <div class="mb-3"><label for="date" class="form-label">Date</label><input type="date" class="form-control" id="date" required><div id="dateError" class="invalid-feedback"></div></div>
+                        <div class="mb-3"><label for="eventType" class="form-label">Event Type</label><select id="eventType" class="form-select" required data-fee="0">
+                            <option value="">Select Type</option>
+                            <option value="Conference" data-fee="50">Conference</option>
+                            <option value="Workshop" data-fee="30">Workshop</option>
+                            <option value="Seminar" data-fee="20">Seminar</option>
+                            <option value="Free Event" data-fee="0">Free Event</option>
+                        </select><div id="eventTypeError" class="invalid-feedback"></div></div>
+                        <div class="mb-3"><label for="message" class="form-label">Message</label><textarea id="message" class="form-control" maxlength="500"></textarea><div class="char-count-display">Characters left: <span id="charCount">500</span></div></div>
+                        <div id="eventFee" class="mb-3 fw-bold">Event Fee: $0</div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                        <div id="registrationStatus" class="status-message d-none"></div>
+                    </form>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">Promo Video</h2>
+                    <video id="promoVideo" class="w-100 rounded shadow" controls>
+                        <source src="https://cdn.pixabay.com/video/2020/07/18/44926-441206479_large.mp4" type="video/mp4">
+                        Video not supported.
+                    </video>
+                    <div id="videoStatus" class="mt-3 p-3 border rounded text-center"></div>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">Nearby Events</h2>
+                    <button id="findNearbyEventsButton" class="btn btn-outline-primary mb-3">Find Events</button>
+                    <p>Location: <span id="latitude">N/A</span>, <span id="longitude">N/A</span></p>
+                    <div id="geo-status" class="text-muted"></div>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">Event Summary</h2>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light"><tr><th>Event</th><th>Date</th><th>Attendees</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>Garden Day</td><td>2025-06-15</td><td>120</td><td>Active</td></tr>
+                            <tr><td>Music Fest</td><td>2025-07-22</td><td>500</td><td>Active</td></tr>
+                            <tr><td>Business Fair</td><td>2025-08-01</td><td>80</td><td>Upcoming</td></tr>
+                            <tr><td>Charity Run</td><td>2025-09-10</td><td>300</td><td>Planned</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">News</h2>
+                    <div class="bg-light p-3 rounded">
+                        <p class="text-capitalize">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p class="text-lowercase">Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                        <p class="text-uppercase">Duis aute irure dolor in reprehenderit.</p>
+                    </div>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="display-6 fw-bold">Feedback</h2>
+                    <div class="form-floating mb-3">
+                        <textarea id="feedbackMessage" class="form-control" maxlength="500" style="height: 100px"></textarea>
+                        <label for="feedbackMessage">Feedback</label>
+                        <div class="char-count-display">Characters left: <span id="feedbackCharCount">500</span></div>
+                    </div>
+                    <button id="submitFeedbackButton" class="btn btn-primary">Submit</button>
+                </section>
+
+                <section id="contact" class="mb-5 d-none d-md-block">
+                    <h2 class="display-6 fw-bold">Contact</h2>
+                    <p>Contact us via <a href="mailto:contact@communityportal.com" class="contact-link">email</a> or phone.</p>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationModalLabel">Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><p id="modalMessage"></p></div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center p-3 position-fixed bottom-0 w-100">
+        <p class="mb-2">© 2025 Community Event Portal</p>
+        <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        console.log("Community Portal Loaded");
+        const dom = {
+            eventsContainer: document.getElementById('dynamicEventsListContainer'),
+            spinner: document.getElementById('loadingSpinner'),
+            status: document.getElementById('registrationStatus'),
+            form: document.getElementById('eventRegistrationForm'),
+            inputs: {
+                name: document.getElementById('name'),
+                email: document.getElementById('email'),
+                phone: document.getElementById('phone'),
+                date: document.getElementById('date'),
+                eventType: document.getElementById('eventType'),
+                message: document.getElementById('message'),
+                charCount: document.getElementById('charCount'),
+                fee: document.getElementById('eventFee'),
+                prefEventType: document.getElementById('preferredEventType'),
+                clearPrefs: document.getElementById('clearPreferencesButton'),
+                findEvents: document.getElementById('findNearbyEventsButton'),
+                latitude: document.getElementById('latitude'),
+                longitude: document.getElementById('longitude'),
+                geoStatus: document.getElementById('geo-status'),
+                video: document.getElementById('promoVideo'),
+                videoStatus: document.getElementById('videoStatus'),
+                feedback: document.getElementById('feedbackMessage'),
+                feedbackChar: document.getElementById('feedbackCharCount'),
+                submitFeedback: document.getElementById('submitFeedbackButton'),
+                modalMessage: document.getElementById('modalMessage')
+            }
+        };
+
+        let events = [
+            { id: 'e1', name: 'Clean-Up Drive', date: '2025-06-15', seats: 100, category: 'community', description: 'Keep our neighborhood clean!' },
+            { id: 'e2', name: 'Music Festival', date: '2025-07-20', seats: 500, category: 'music', description: 'Enjoy live music.' },
+            { id: 'e3', name: 'Art Exhibition', date: '2025-08-01', seats: 50, category: 'art', description: 'Discover local art.' },
+            { id: 'e4', name: 'Web Workshop', date: '2025-09-05', seats: 30, category: 'workshop', description: 'Learn web development.' },
+            { id: 'e5', name: 'Charity Run', date: '2025-05-10', seats: 200, category: 'community', description: 'Run for a cause!' },
+            { id: 'e6', name: 'Book Club', date: '2025-10-25', seats: 0, category: 'education', description: 'Discuss books.' }
+        ].map(e => ({
+            ...e,
+            checkAvailability: () => e.seats > 0,
+            decrementSeats: () => e.checkAvailability() ? (e.seats--, true) : false,
+            incrementSeats: () => e.seats < e.initialSeats ? (e.seats++, true) : false,
+            initialSeats: e.seats
+        }));
+
+        const trackers = {};
+        events.forEach(e => {
+            trackers[e.id] = ((count = 0) => () => (count++, console.log(`Event ${e.id}: ${count} registrations`), count))();
+        });
+
+        const updateStatus = (msg, type, show, modal = false) => {
+            dom.status.textContent = msg;
+            dom.status.className = `status-message ${type}`;
+            dom.status.classList.toggle('d-none', !show);
+            if (modal) {
+                dom.inputs.modalMessage.textContent = msg;
+                new bootstrap.Modal(document.getElementById('registrationModal')).show();
+            }
+        };
+
+        const renderEvents = (evts = events) => {
+            dom.eventsContainer.innerHTML = '';
+            dom.spinner.classList.add('d-none');
+            if (!evts.length) {
+                dom.eventsContainer.innerHTML = '<p class="text-center text-muted col-12">No events found.</p>';
+                return;
+            }
+            evts.forEach(({ id, name, date, seats, category, description, checkAvailability }) => {
+                const isPast = new Date(date) < new Date().setHours(0, 0, 0, 0);
+                const isFull = !checkAvailability();
+                const card = document.createElement('div');
+                card.className = `col event-card ${isPast ? 'past-event' : ''} ${isFull ? 'full-event' : ''}`;
+                card.innerHTML = `
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h4 class="card-title">${name}</h4>
+                            <p class="card-text"><strong>Date:</strong> ${date}</p>
+                            <p class="card-text"><strong>Category:</strong> <span class="category">${category.charAt(0).toUpperCase() + category.slice(1)}</span></p>
+                            <p class="card-text">${description}</p>
+                            <p class="card-text"><strong>Seats:</strong> ${seats} <span>(${isFull ? 'Full' : isPast ? 'Past' : 'Available'})</span></p>
+                            <button class="btn btn-primary register-button mt-auto" data-event-id="${id}" ${isFull || isPast ? 'disabled' : ''}>Register</button>
+                        </div>
+                    </div>
+                `;
+                dom.eventsContainer.appendChild(card);
+            });
+            document.querySelectorAll('.register-button').forEach(btn => btn.addEventListener('click', e => registerUser(e.target.dataset.eventId)));
+        };
+
+        const registerUser = async id => {
+            const evt = events.find(e => e.id === id);
+            if (!evt) return updateStatus('Event not found.', 'error', true, true);
+            try {
+                dom.spinner.classList.remove('d-none');
+                dom.status.classList.add('d-none');
+                if (evt.decrementSeats()) {
+                    await new Promise(r => setTimeout(r, 1500));
+                    updateStatus(`Registered for ${evt.name}!`, 'success', true, true);
+                    trackers[id]();
+                    renderEvents();
+                } else {
+                    updateStatus(`${evt.name} is full or past.`, 'error', true, true);
+                }
+            } catch (e) {
+                updateStatus(`Error: ${e.message}`, 'error', true, true);
+            } finally {
+                dom.spinner.classList.add('d-none');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            alert("Page loaded!");
+            renderEvents();
+            dom.inputs.date.min = new Date().toISOString().split('T')[0];
+        });
+
+        dom.form.addEventListener('submit', async e => {
+            e.preventDefault();
+            dom.form.classList.add('was-validated');
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+            let valid = true;
+            const validate = (input, errId, msg, regex) => {
+                const err = document.getElementById(errId);
+                if (!input.value.trim()) {
+                    err.textContent = msg;
+                    valid = false;
+                } else if (regex && !regex.test(input.value)) {
+                    err.textContent = `Invalid ${input.id}.`;
+                    valid = false;
+                }
+            };
+            validate(dom.inputs.name, 'nameError', 'Name required.');
+            validate(dom.inputs.email, 'emailError', 'Email required.', /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/);
+            validate(dom.inputs.date, 'dateError', 'Date required.');
+            validate(dom.inputs.eventType, 'eventTypeError', 'Type required.');
+            if (dom.inputs.phone.value.trim() && !/^\d{3}-\d{3}-\d{4}$/.test(dom.inputs.phone.value)) {
+                document.getElementById('phoneError').textContent = 'Use XXX-XXX-XXXX format.';
+                valid = false;
+            }
+            if (valid) {
+                const data = {
+                    name: dom.inputs.name.value,
+                    email: dom.inputs.email.value,
+                    phone: dom.inputs.phone.value,
+                    date: dom.inputs.date.value,
+                    eventType: dom.inputs.eventType.value,
+                    message: dom.inputs.message.value
+                };
+                dom.spinner.classList.remove('d-none');
+                await new Promise(r => setTimeout(r, 2000));
+                updateStatus('Registration successful!', 'success', true, true);
+                dom.form.reset();
+                dom.form.classList.remove('was-validated');
+                dom.inputs.charCount.textContent = '500';
+                dom.inputs.fee.textContent = 'Event Fee: $0';
+            } else {
+                updateStatus('Correct form errors.', 'error', true, true);
+            }
+            dom.spinner.classList.add('d-none');
+        });
+
+        dom.inputs.prefEventType.addEventListener('change', e => {
+            localStorage.setItem('preferredEventType', e.target.value);
+            alert(`Preferred event: ${e.target.value}`);
+        });
+
+        dom.inputs.clearPrefs.addEventListener('click', () => {
+            localStorage.removeItem('preferredEventType');
+            dom.inputs.prefEventType.value = '';
+            alert('Preferences cleared.');
+        });
+
+        $(document).ready(() => {
+            $('nav a').on('click', e => {
+                if (e.target.hash) {
+                    e.preventDefault();
+                    $('html, body').animate({ scrollTop: $(e.target.hash).offset().top }, 800, () => location.hash = e.target.hash);
+                }
+            });
+            $('#welcomeBanner').on('click', () => $(this).fadeOut(500).fadeIn(500));
+            $('#eventRegistrationForm input, #eventRegistrationForm select, #eventRegistrationForm textarea').on('focus', function() {
+                $(this).addClass('focused-input');
+            }).on('blur', function() {
+                $(this).removeClass('focused-input');
+            });
+        });
+
+        [dom.inputs.message, dom.inputs.feedback].forEach((ta, i) => {
+            ta.addEventListener('input', () => {
+                const count = ta.getAttribute('maxlength') - ta.value.length;
+                (i ? dom.inputs.feedbackChar : dom.inputs.charCount).textContent = count;
+            });
+        });
+
+        dom.inputs.eventType.addEventListener('change', () => {
+            dom.inputs.fee.textContent = `Event Fee: $${dom.inputs.eventType.options[dom.inputs.eventType.selectedIndex].dataset.fee || 0}`;
+        });
+
+        dom.inputs.findEvents.addEventListener('click', () => {
+            dom.inputs.geoStatus.textContent = 'Finding location...';
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    pos => {
+                        dom.inputs.latitude.textContent = pos.coords.latitude.toFixed(4);
+                        dom.inputs.longitude.textContent = pos.coords.longitude.toFixed(4);
+                        dom.inputs.geoStatus.textContent = 'Location found!';
+                    },
+                    err => {
+                        dom.inputs.geoStatus.textContent = `Error: ${['User denied', 'Location unavailable', 'Timeout', 'Unknown error'][err.code] || 'Unknown error.'}`;
+                        dom.inputs.latitude.textContent = dom.inputs.longitude.textContent = 'N/A';
+                    },
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+            } else {
+                dom.inputs.geoStatus.textContent = 'Geolocation not supported.';
+                dom.inputs.latitude.textContent = dom.inputs.longitude.textContent = 'N/A';
+            }
+        });
+
+        dom.inputs.video.addEventListener('play', () => Object.assign(dom.inputs.videoStatus, { textContent: 'Video playing...', style: { backgroundColor: '#d4edda', borderColor: '#28a745', color: '#155724' } }));
+        dom.inputs.video.addEventListener('pause', () => Object.assign(dom.inputs.videoStatus, { textContent: 'Video paused.', style: { backgroundColor: '#fff3cd', borderColor: '#ffc107', color: '#856404' } }));
+        dom.inputs.video.addEventListener('ended', () => Object.assign(dom.inputs.videoStatus, { textContent: 'Video finished.', style: { backgroundColor: '#cfe2ff', borderColor: '#007bff', color: '#004085' } }));
+        dom.inputs.video.addEventListener('error', () => Object.assign(dom.inputs.videoStatus, { textContent: 'Video error.', style: { backgroundColor: '#f8d7da', borderColor: '#dc3545', color: '#721c24' } }));
+
+        dom.eventsContainer.addEventListener('click', e => {
+            if (e.target.classList.contains('register-button')) console.log(`Clicked register for event ${e.target.dataset.eventId}`);
+        });
+
+        dom.inputs.submitFeedback.addEventListener('click', async () => {
+            if (!dom.inputs.feedback.value.trim()) return alert('Feedback cannot be empty!');
+            console.log("Feedback:", dom.inputs.feedback.value);
+            await new Promise(r => setTimeout(r, 1000));
+            alert('Feedback submitted!');
+            dom.inputs.feedback.value = '';
+            dom.inputs.feedbackChar.textContent = '500';
+        });
+    </script>
+</body>
+</html>
