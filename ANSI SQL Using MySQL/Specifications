@@ -1,0 +1,56 @@
+1. User Upcoming Events
+Show a list of all upcoming events a user is registered for in their city, sorted by date.
+2. Top Rated Events
+Identify events with the highest average rating, considering only those that have received at 
+least 10 feedback submissions.
+3. Inactive Users
+Retrieve users who have not registered for any events in the last 90 days.
+4. Peak Session Hours
+Count how many sessions are scheduled between 10 AM to 12 PM for each event.
+5. Most Active Cities
+List the top 5 cities with the highest number of distinct user registrations.
+6. Event Resource Summary
+Generate a report showing the number of resources (PDFs, images, links) uploaded for each 
+event.
+7. Low Feedback Alerts
+List all users who gave feedback with a rating less than 3, along with their comments and 
+associated event names.
+8. Sessions per Upcoming Event
+Display all upcoming events with the count of sessions scheduled for them.
+9. Organizer Event Summary
+For each event organizer, show the number of events created and their current status 
+(upcoming, completed, cancelled).
+10. Feedback Gap
+Identify events that had registrations but received no feedback at all.
+11. Daily New User Count
+Find the number of users who registered each day in the last 7 days.
+12. Event with Maximum Sessions
+List the event(s) with the highest number of sessions.
+13. Average Rating per City
+Calculate the average feedback rating of events conducted in each city.
+14. Most Registered Events
+List top 3 events based on the total number of user registrations.
+15. Event Session Time Conflict
+Identify overlapping sessions within the same event (i.e., session start and end times that 
+conflict).
+16. Unregistered Active Users
+Find users who created an account in the last 30 days but haven’t registered for any events.
+17. Multi-Session Speakers
+Identify speakers who are handling more than one session across all events.
+18. Resource Availability Check
+List all events that do not have any resources uploaded.
+19. Completed Events with Feedback Summary
+For completed events, show total registrations and average feedback rating.
+20. User Engagement Index
+For each user, calculate how many events they attended and how many feedbacks they 
+submitted.
+21. Top Feedback Providers
+List top 5 users who have submitted the most feedback entries.
+22. Duplicate Registrations Check
+Detect if a user has been registered more than once for the same event.
+23. Registration Trends
+Show a month-wise registration count trend over the past 12 months.
+24. Average Session Duration per Event
+Compute the average duration (in minutes) of sessions in each event.
+25. Events Without Sessions
+List all events that currently have no sessions scheduled under them.
